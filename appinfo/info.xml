@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<info>
+  <id>irods_meta</id>
+  <name>iRODS Metadata management</name>
+  <description></description>
+  <licence>AGPL</licence>
+  <author>Stefan Wolfsheimer</author>
+  <author>Tasneem Rahaman-Khan</author>
+  <version>0.0.1</version>
+  <namespace>irods_meta</namespace>
+  <category>integration</category>
+  <types>
+    <filesystem/>
+  </types>
+  <dependencies>
+    <owncloud min-version="9" max-version="10"/>
+  </dependencies>
+</info>
