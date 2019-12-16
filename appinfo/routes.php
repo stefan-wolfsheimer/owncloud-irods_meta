@@ -14,9 +14,13 @@ $application->registerRoutes($this, [
   'routes' => [
      [
         'name' => 'schema#get',
-	'url' => 'app/irods_meta/api/schema',
-	'verb' => 'GET'
+        'url' => 'app/irods_meta/api/schema',
+        'verb' => 'GET'
      ],
- 
+     [
+            'name' => 'meta_test#index',
+            'url' => '/api/irods_meta',
+            'verb' => 'GET'
+     ]
    ]
 ]);
