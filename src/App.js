@@ -6,10 +6,9 @@ import './App.css';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    //this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      mySchema: {},
-    }
+      mySchema: {}
+    };
   };
 
   handleSubmit({formData}) {
@@ -17,7 +16,6 @@ class App extends React.Component {
   };
 
   componentDidMount(){
-    //this.mySchema();
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -37,17 +35,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="main-registration-container">
-      <div id="project">
-      {this.state && this.state.mySchema &&
-        <Form schema={this.state.mySchema} onSubmit={this.handleSubmit} />}
-
+        <div id="main-registration-container">
+          <div id="project">
+          {this.state && this.state.mySchema &&
+           <Form schema={this.state.mySchema} onSubmit={this.handleSubmit} />}
+          </div>
         </div>
-        </div>
-
       );
     }
-
-
   }
   export default App;

@@ -2,6 +2,7 @@
 
 namespace OCA\irods_meta\AppInfo;
 use \OCP\AppFramework\App;
+use \OCP\Util;
 
 $app = new Application();
 
@@ -20,3 +21,12 @@ $app = new Application();
     // navigation or on the settings page of your app
     'name' => \OCP\Util::getL10N('irods_meta')->t('TestIRodsMeta')
 ));
+
+\OC::$server->getEventDispatcher()->addListener(
+	'OCA\Files::loadAdditionalScripts',
+	function() {
+        Util::addScript('irods_meta', 'bundle');
+	}
+);
+
+
