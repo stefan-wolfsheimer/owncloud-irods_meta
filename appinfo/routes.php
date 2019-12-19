@@ -19,9 +19,9 @@ $application->registerRoutes($this, [
     ],
     [
       'name' => 'meta#get',
-      'url' => '/api/meta',
-      'verb' => 'GET'
+      'url' => '/api/meta/{path}',
+      'verb' => 'GET',
+      'requirements' => ['path' => '.*']
     ]
-
   ]
 ]);

@@ -9,12 +9,18 @@ class SchemaController extends Controller
    * @NoAdminRequired
    * @NoCSRFRequired
    */
-
    public function get()
-    {
+   {
         $config = \OC::$server->getconfig();
         $json_schema = $config->getAppvalue(
             "irods_meta","json_schema");
         return $json_schema;
+    }
+
+    static public function getSchema()
+    {
+        $config = \OC::$server->getconfig();
+        $json_schema = $config->getAppvalue("irods_meta", "json_schema");
+        return json_decode($json_schema, TRUE);
     }
 };

@@ -79,12 +79,26 @@ import App from './App';
 
        setPath: function(context) {
          this.path = context.dir;
+         if(this.path != '/') {
+           this.path += '/' + context.fileInfoModel.attributes.name;
+         }
+         else {
+           this.path = '';
+         }
+         this.apiUrl = OC.generateUrl('/apps/files_irods/api/meta' + this.path);
+         if(context.fileInfoModel.isDirectory()) {
+           this.iconurl = OC.MimeType.getIconUrl('dir');
+         }
+         else {
+           this.iconurl = OC.MimeType.getIconUrl(context.fileInfoModel.get('mimetype'));
+         }
        },
 
        load: function() {
          const TEMPLATE = <div className="detailFileInfoContainer">
                             <div className="mainFileInfoView">
-                              <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema')} url_data={OC.generateUrl('/apps/irods_meta/api/meta')} />
+                              <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema')}
+                                   url_data={OC.generateUrl('/apps/irods_meta/api/meta/' + this.path)} />
                             </div>
                             <a className="close icon-close" href="#" alt="Close"/>
                           </div>;
