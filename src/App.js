@@ -7,7 +7,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mySchema: {}
+      mySchema: {},
+      formData: {}
     };
   };
 
@@ -17,7 +18,7 @@ class App extends React.Component {
 
   componentDidMount(){
     $.ajax({
-      url: this.props.url,
+      url: this.props.url_schema,
       dataType: 'json',
       cache: false,
       success: data => {
@@ -27,7 +28,22 @@ class App extends React.Component {
         this.setState({mySchema: data});
       },
       error: (xhr, status, err) => {
-        console.error(this.props.url, status, err.toString());
+        console.error(this.props.url_schema, status, err.toString());
+      }
+    });
+    $.ajax({
+      url: this.props.url_data,
+      dataType: 'json',
+      cache: false,
+      success: data => {
+        console.log(data);
+        if(typeof data == 'string') {
+          data = JSON.parse(data);
+        }
+        this.setState({formData: data});
+      },
+      error: (xhr, status, err) => {
+        console.error(this.props.url_data, status, err.toString());
       }
     });
   };
@@ -37,8 +53,9 @@ class App extends React.Component {
     return (
         <div id="main-registration-container">
           <div id="project">
-          {this.state && this.state.mySchema &&
-           <Form schema={this.state.mySchema} onSubmit={this.handleSubmit} />}
+          {this.state && this.state.mySchema && this.state.formData &&
+           <Form schema={this.state.mySchema} onSubmit={this.handleSubmit}
+                 formData={this.state.formData} />}
           </div>
         </div>
       );

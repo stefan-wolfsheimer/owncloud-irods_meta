@@ -84,7 +84,7 @@ import App from './App';
        load: function() {
          const TEMPLATE = <div className="detailFileInfoContainer">
                             <div className="mainFileInfoView">
-                              <App url={OC.generateUrl('/apps/irods_meta/api/schema')} />
+                              <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema')} url_data={OC.generateUrl('/apps/irods_meta/api/meta')} />
                             </div>
                             <a className="close icon-close" href="#" alt="Close"/>
                           </div>;

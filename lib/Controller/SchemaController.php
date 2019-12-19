@@ -4,7 +4,13 @@ use OCP\AppFramework\Controller;
 
 class SchemaController extends Controller
 {
-    public function get()
+
+  /**
+   * @NoAdminRequired
+   * @NoCSRFRequired
+   */
+
+   public function get()
     {
         $config = \OC::$server->getconfig();
         $json_schema = $config->getAppvalue(
