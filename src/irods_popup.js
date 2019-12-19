@@ -101,11 +101,13 @@ import App from './App';
                                    url_data={OC.generateUrl('/apps/irods_meta/api/meta/' + this.path)} />
                             </div>
                             <a className="close icon-close" href="#" alt="Close"/>
-                          </div>;
+                         </div>;
+         ReactDOM.unmountComponentAtNode(this.$el[0]);
          ReactDOM.render(TEMPLATE, this.$el[0]);
        },
 
        _onClose: function(event) {
+         ReactDOM.unmountComponentAtNode(this.$el[0]);
          OC.Apps.hideAppSidebar(this.$el);
          event.preventDefault();
        },
