@@ -49,20 +49,25 @@ class MetaController extends Controller
 
     /*
      * @NoAdminRequired
-
+     *
      * @param string $path
      * @param string $attr
      * @param string $value
      */
-
-    public function put($path, $attr, $value) {
-        error_log($path);
-        error_log($attr);
-        error_log($value);
-
-        // PUT /apps/meta..... ?attr= &value=
-        // => $attr = 'john'
-        //    $value = 'killer'
+    public function put($path, $attr, $value)
+    {
+        $session = iRodsSession::createFromPath($path);
+        $irodsPath = $session->resolve($this->stripMountPoint($path));
+        $schema = SchemaController::getSchema();
+        $properties = array_key_exists("properties", $schema) ? $schema["properties"] : array();
+        if(array_key_exists($attr, $properties))
+        {
+            $irodsPath->setMeta($attr, $value);
+        }
+        else
+        {
+            throw new \Exception("$attr not in Schema");
+        }
     }
 
 };
