@@ -46,4 +46,23 @@ class MetaController extends Controller
             throw new \Exception("invalid iRODS path");
         }
     }
+
+    /*
+     * @NoAdminRequired
+
+     * @param string $path
+     * @param string $attr
+     * @param string $value
+     */
+
+    public function put($path, $attr, $value) {
+        error_log($path);
+        error_log($attr);
+        error_log($value);
+
+        // PUT /apps/meta..... ?attr= &value=
+        // => $attr = 'john'
+        //    $value = 'killer'
+    }
+
 };
