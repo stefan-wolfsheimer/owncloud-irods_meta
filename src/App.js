@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
 import './App.css';
-
+const log = (type) => console.log.bind(console, type);
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +11,29 @@ class App extends React.Component {
       formData: {}
     };
   };
+
+  onBlur(e,value) {
+    $.ajax({
+      url: this.props.url_data,
+      type: 'PUT',
+      cache: false,
+      data: { attr: atr, value: value}
+    });
+    //let formData = this.state.formData;
+    //formData[e.target.name] = e.target.value;
+    let atr = e.substring(5)
+    console.log('--------------');
+    console.log(atr, value);
+    console.log('+++++++++++++++');
+    console.log(this);
+    //console.log(e.target.name + '=' + e.target.value);
+    //this.setState({
+  //    formData
+//    });
+  }
+ url='/dasfafd/sdaf/asdfsadf/ads?attr=' + encodeURIComponent(atr) + '&value=' + encodeURIComponent(value);
+
+
 
   handleSubmit({formData}) {
     console.log(formData);
@@ -51,12 +74,15 @@ class App extends React.Component {
 
   render() {
     return (
-        <div id="main-registration-container">
-          <div id="project">
-          {this.state && this.state.mySchema && this.state.formData &&
-           <Form schema={this.state.mySchema} onSubmit={this.handleSubmit}
-                 formData={this.state.formData} />}
-          </div>
+      <div id="main-registration-container">
+      <div id="project">
+      {this.state && this.state.mySchema && this.state.formData &&
+        <Form schema={this.state.mySchema}
+        formData={this.state.formData}
+        onBlur={this.onBlur}
+        //onChange={log("changed")}
+        onSubmit={this.handleSubmit}/>}
+        </div>
         </div>
       );
     }
