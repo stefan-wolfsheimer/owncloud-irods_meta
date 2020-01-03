@@ -47,7 +47,7 @@ class MetaController extends Controller
         }
     }
 
-    /*
+    /**
      * @NoAdminRequired
      *
      * @param string $path
