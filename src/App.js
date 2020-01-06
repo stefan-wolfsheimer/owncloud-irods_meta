@@ -28,9 +28,12 @@ class App extends React.Component {
     }
   }
 
-
   handleSubmit({formData}) {
-    console.log(formData);
+    $.ajax({
+      url: this.props.url_submit,
+      type: 'POST',
+      cache: false
+    });
   };
 
   componentDidMount(){
@@ -78,7 +81,7 @@ class App extends React.Component {
         <Form schema={this.state.mySchema}
                       formData={this.state.formData}
                       onBlur={(k, v) => { this.onBlur(k,v);} }
-                      onSubmit={this.handleSubmit}/>
+                      onSubmit={d => { this.handleSubmit(d); }}/>
       }
       </div>
       </div>

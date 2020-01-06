@@ -112,7 +112,8 @@ import App from './App';
          const TEMPLATE = <div className="detailFileInfoContainer">
                             <div className="mainFileInfoView">
                               <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema')}
-                                   url_data={OC.generateUrl('/apps/irods_meta/api/meta/' + this.path)} />
+                                   url_data={OC.generateUrl('/apps/irods_meta/api/meta/' + this.path)}
+                                   url_submit={OC.generateUrl('/apps/irods_meta/api/submit/' + this.path)} />
                             </div>
                             <a className="close icon-close" href="#" alt="Close"/>
                          </div>;

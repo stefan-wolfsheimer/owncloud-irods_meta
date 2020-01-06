@@ -70,4 +70,15 @@ class MetaController extends Controller
         }
     }
 
+    /**
+     * @NoAdminRequired
+     *
+     * @param string $path
+     */
+    public function submit($path)
+    {
+        $session = iRodsSession::createFromPath($path);
+        $irodsPath = $session->resolve($this->stripMountPoint($path));
+        $irodsPath->setMeta("IBRIDGES_STATE", "SUBMITTED");
+    }
 };
