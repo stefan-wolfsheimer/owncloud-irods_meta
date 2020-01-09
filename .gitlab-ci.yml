@@ -1,5 +1,6 @@
 variables:
   SPEC_DIR: /home/gitlab-runner/owncloud-apps
+  GIT_STRATEGY: clone
 
 before_script:
   - echo "before"
