@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
-import './App.css';
+import mainFileInfoView from './App.css';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -42,6 +43,9 @@ class App extends React.Component {
       dataType: 'json',
       cache: false,
       success: data => {
+        if(typeof data == 'string') {
+          data = JSON.parse(data);
+        }
         this.setState({mySchema: data});
       },
       error: (xhr, status, err) => {
@@ -82,6 +86,7 @@ class App extends React.Component {
       }
       </div>
       </div>
+
      );
   }
 }
