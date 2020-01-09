@@ -1,20 +1,42 @@
 <?php
 namespace OCA\irods_meta\Controller;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
+use OCA\files_irods\iRodsApi\iRodsSession;
 
 class SchemaController extends Controller
 {
+    public function stripMountPoint($path)
+    {
+        $tmp = explode('/', ltrim($path, '/'), 2);
+        if(count($tmp) > 1)
+        {
+            return $tmp[1];
+        }
+        else
+        {
+            return "";
+        }
+    }
 
   /**
    * @NoAdminRequired
    * @NoCSRFRequired
    */
-   public function get()
+   public function get($path)
    {
-        $config = \OC::$server->getconfig();
-        $json_schema = $config->getAppvalue(
-            "irods_meta","json_schema");
-        return $json_schema;
+       $session = iRodsSession::createFromPath($path);
+       $irodsPath = $session->resolve($this->stripMountPoint($path));
+       $acl = $irodsPath->acl();
+       $schema = SchemaController::getSchema();
+       if($acl == "read")
+       {
+           foreach($schema['properties'] as $k=>&$v)
+           {
+               $v['readOnly'] = true;
+           }
+       }
+       return new JSONResponse($schema);
     }
 
     static public function getSchema()

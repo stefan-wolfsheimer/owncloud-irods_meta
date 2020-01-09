@@ -14,8 +14,9 @@ $application->registerRoutes($this, [
   'routes' => [
     [
       'name' => 'schema#get',
-      'url' => '/api/schema',
-      'verb' => 'GET'
+      'url' => '/api/schema/{path}',
+      'verb' => 'GET',
+      'requirements' => ['path' => '.*']
     ],
     [
       'name' => 'meta#get',

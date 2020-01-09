@@ -111,7 +111,7 @@ import App from './App';
        load: function() {
          const TEMPLATE = <div className="detailFileInfoContainer">
                             <div className="mainFileInfoView">
-                              <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema')}
+                              <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema/' + this.path)}
                                    url_data={OC.generateUrl('/apps/irods_meta/api/meta/' + this.path)}
                                    url_submit={OC.generateUrl('/apps/irods_meta/api/submit/' + this.path)} />
                             </div>
