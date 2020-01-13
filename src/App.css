@@ -1,13 +1,66 @@
-.App {
-  text-align: center;
+.mainFileInfoView {
+  background-color: white;
+  margin:10px auto;
+	max-width: 400px;
+	padding: 20px 12px 10px 20px;
+	font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
+.mainFileInfoView-heading{
+	font-weight: bold;
+	font-style: italic;
+	border-bottom: 2px solid #ddd;
+	margin-bottom: 20px;
+	font-size: 15px;
+	padding-bottom: 3px;
 }
 
-.App-header {
-  background-color: #282c34;
+.mainFileInfoView h1{
+	background: #2A88AD;
+	padding: 20px 30px 15px 30px;
+	margin: -30px -30px 30px -30px;
+	border-radius: 10px 10px 0 0;
+	-webkit-border-radius: 10px 10px 0 0;
+	-moz-border-radius: 10px 10px 0 0;
+	color: #fff;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+	font: normal 30px 'Bitter', serif;
+	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	border: 1px solid #257C9E;
+}
+.mainFileInfoView h1 > span{
+	display: block;
+	margin-top: 2px;
+	font: 13px Arial, Helvetica, sans-serif;
+}
+
+.mainFileInfoView-logo {
+  height: 70vmin;
+}
+
+.mainFileInfoView input {
+    background-color: lightblue;
+    width: 130px;
+    margin: 3px 3px 3px 0;
+    padding: 7px 6px 5px;
+    font-size: 13px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    outline: none;
+    border-radius: 3px;
+}
+
+.mainFileInfoView input:read-only {
+    background-color: rgb(241, 241, 241);
+    color: white;
+}
+
+
+.mainFileInfoView-header {
+  background-color: #F1F1F1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,9 +68,41 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  text-align: center;
+  padding: 20px;
+  float: left;
+  width: calc(100% - 200px);
 }
 
-.App-link {
+.mainFileInfoView-link {
   color: #09d3ac;
 }
 
+.mainFileInfoView form {
+    overflow: hidden;
+}
+
+.mainFileInfoView label {
+    float: left;
+    width: 200px;
+    padding-right: 15px;
+}
+
+.mainFileInfoView input[type=submit], .mainFileInfoView input[type=button]{
+	background: #4B99AD;
+	padding: 8px 15px 8px 15px;
+	border: none;
+	color: #fff;
+}
+
+.mainFileInfoView input[type=submit]:hover, .mainFileInfoView input[type=button]:hover{
+	background: #4691A4;
+	box-shadow:none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+}
+
+/*.mainFileInfoView button {
+    float: right;
+    width: calc(100% - 200px);
+}*/

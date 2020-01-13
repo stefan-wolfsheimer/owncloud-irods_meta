@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
-import './App.css';
+import mainFileInfoView from './App.css';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -82,6 +83,7 @@ class App extends React.Component {
       }
       </div>
       </div>
+
      );
   }
 }
