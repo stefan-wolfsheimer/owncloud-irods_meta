@@ -43,9 +43,6 @@ class App extends React.Component {
       dataType: 'json',
       cache: false,
       success: data => {
-        if(typeof data == 'string') {
-          data = JSON.parse(data);
-        }
         this.setState({mySchema: data});
       },
       error: (xhr, status, err) => {
