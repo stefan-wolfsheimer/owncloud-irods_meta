@@ -7,7 +7,7 @@ before_script:
   - docker rm --force owncloud-irods-meta-builder || echo "not running"
 
 after_script:
-  - echo "before"
+  - echo "after"
   - docker rm --force owncloud-irods-meta-builder || echo "not running"
 
 stages:
