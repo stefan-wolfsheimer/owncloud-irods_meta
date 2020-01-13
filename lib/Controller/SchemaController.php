@@ -43,6 +43,12 @@ class SchemaController extends Controller
     {
         $config = \OC::$server->getconfig();
         $json_schema = $config->getAppvalue("irods_meta", "json_schema");
+        $ret = json_decode($json_schema, TRUE);
+        if(!$ret)
+        {
+            error_log($json_schema);
+            throw new \Exception("could not decode json string");
+        }
         return json_decode($json_schema, TRUE);
     }
 };
