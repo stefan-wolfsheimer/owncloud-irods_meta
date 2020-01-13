@@ -22,12 +22,12 @@ import App from './App';
        let depth = suffix.split('/').length - (dataType == "file" ? 1 : 0);
        let cfg = mp.mount_point_config;
        if(dataType == "file") {
-         if(cfg.object_edit_meta_data && (cfg.sub_collection_edit_meta_data || depth < 2)) {
+         if((cfg.object_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
            return true;
          }
        }
        else if(dataType == "dir") {
-         if(cfg.collection_edit_meta_data && (cfg.sub_collection_edit_meta_data || depth < 2)) {
+         if((cfg.collection_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
            return true;
          }
        }
