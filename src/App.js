@@ -33,7 +33,15 @@ class App extends React.Component {
     $.ajax({
       url: this.props.url_submit,
       type: 'POST',
-      cache: false
+      cache: false,
+      success: data => {
+        $( "#irods-notification").show();
+        $( "#irods-notification-message").html("Collection Submitted");
+      },
+      error: (xhr, status, err) => {
+        $( "#irods-error").show();
+        $( "#irods-error-message").html("Collection not Submitted");
+      },
     });
   };
 
@@ -81,6 +89,18 @@ class App extends React.Component {
                       onBlur={(k, v) => { this.onBlur(k,v);} }
                       onSubmit={d => { this.handleSubmit(d); }}/>
       }
+      <div className="irods-error" id="irods-error">
+      <h3 className="irods-field-header">Error</h3>
+      <div id="irods-error-message">
+      </div>
+      </div>
+      <div className="irods-notification" id="irods-notification">
+      <h3 className="irods-field-header">Notification</h3>
+      <div id="irods-notification-message">
+      </div>
+      </div>
+
+
       </div>
       </div>
 
