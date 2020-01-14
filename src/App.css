@@ -74,6 +74,25 @@
   width: calc(100% - 200px);
 }
 
+div {}
+.irods-error {
+    background:#f2dede;
+    border:1px solid #f00;
+    list-style-indent:inside;
+    margin:0 0 2em;
+    padding:1em;
+    display: none;
+}
+
+.irods-notification {
+    background: #fc4;
+    border:1px solid #0000;
+    margin: 30px auto;
+    padding:1em;
+    text-align: center;
+    display: none;
+}
+
 .mainFileInfoView-link {
   color: #09d3ac;
 }
