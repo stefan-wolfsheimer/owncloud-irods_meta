@@ -72,7 +72,7 @@ import App from './App';
                displayName: 'Metadata',
                mime: 'all',
                permissions: OC.PERMISSION_READ,
-               icon: OC.imagePath('files_irods', 'eye'),
+               icon: OC.imagePath('irods_meta', 'eye'),
                actionHandler: iRodsMetaDataView
              });
              fileList.fileActions.addAdvancedFilter(function(actions, context) {
