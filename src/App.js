@@ -30,6 +30,8 @@ class App extends React.Component {
   }
 
   handleSubmit({formData}) {
+    $( "#main-registration-container .form-control").attr('readonly', true);
+    $( "#main-registration-container :button").hide();
     $.ajax({
       url: this.props.url_submit,
       type: 'POST',
@@ -40,7 +42,8 @@ class App extends React.Component {
       },
       error: (xhr, status, err) => {
         $( "#irods-error").show();
-        $( "#irods-error-message").html("Collection not Submitted");
+        $( "#irods-error-message").html("Failed to submit collection");
+        $( "#main-registration-container :button").show();
       },
     });
   };
@@ -82,28 +85,25 @@ class App extends React.Component {
   render() {
     return (
       <div id="main-registration-container">
-      <div id="project">
-      {this.state && this.state.mySchema && this.state.formData &&
-        <Form schema={this.state.mySchema}
-                      formData={this.state.formData}
+       <div id="project">
+        {this.state && this.state.mySchema && this.state.formData &&
+         <Form schema={this.state.mySchema}
+                       formData={this.state.formData}
                       onBlur={(k, v) => { this.onBlur(k,v);} }
                       onSubmit={d => { this.handleSubmit(d); }}/>
-      }
-      <div className="irods-error" id="irods-error">
-      <h3 className="irods-field-header">Error</h3>
-      <div id="irods-error-message">
+        }
+        <div className="irods-error" id="irods-error">
+          <h3 className="irods-field-header">Error</h3>
+          <div id="irods-error-message">
+          </div>
+        </div>
+        <div className="irods-notification" id="irods-notification">
+          <h3 className="irods-field-header">Notification</h3>
+          <div id="irods-notification-message">
+          </div>
+        </div>
+       </div>
       </div>
-      </div>
-      <div className="irods-notification" id="irods-notification">
-      <h3 className="irods-field-header">Notification</h3>
-      <div id="irods-notification-message">
-      </div>
-      </div>
-
-
-      </div>
-      </div>
-
      );
   }
 }
