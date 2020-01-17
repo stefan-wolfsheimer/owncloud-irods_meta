@@ -42,7 +42,7 @@
 
 .mainFileInfoView input:read-only {
     background-color: rgb(241, 241, 241);
-    color: white;
+    color: black;
 }
 
 
