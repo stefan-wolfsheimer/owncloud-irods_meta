@@ -5,34 +5,69 @@ import App from './App';
 
 (function()
  {
-   function iRodsMetaDataView(file, context) {
+   function checkFileReadOrEdit(fullPath, dataType, mp) {
+      if(mp.mount_point_config) {
+        let suffix = fullPath.slice(mp.name.length);
+        let depth = suffix.split('/').length - (dataType == "file" ? 1 : 0);
+        let cfg = mp.mount_point_config;
+        if(dataType == "file") {
+          if((cfg.object_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
+            return true;
+          }
+        }
+        else if(dataType == "dir") {
+          if((cfg.collection_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
+            return true;
+          }
+        }
+      }
+      return false;
+   }
+
+   function checkFileEdit(fullPath, dataType, mp) {
+      if(mp.mount_point_config) {
+        let suffix = fullPath.slice(mp.name.length);
+        let depth = suffix.split('/').length - (dataType == "file" ? 1 : 0);
+        let cfg = mp.mount_point_config;
+        if(dataType == "file") {
+          if((cfg.object_edit_meta_data) && ((cfg.sub_collection_edit_meta_data) || depth < 2)) {
+            return true;
+          }
+        }
+        else if(dataType == "dir") {
+          if((cfg.collection_edit_meta_data) && ((cfg.sub_collection_edit_meta_data) || depth < 2)) {
+            return true;
+          }
+        }
+      }
+      return false;
+   }
+
+   function iRodsMetaDataView(file, context, mountPoints) {
      if(typeof context.fileList._irodsMetaView == 'undefined') {
        let view = new OCA.IRODS_POPUP.View();
        view.$el.insertBefore(context.fileList.$el);
        context.fileList._irodsMetaView = view;
      }
      OC.Apps.showAppSidebar(context.fileList._irodsMetaView.$el);
-     context.fileList._irodsMetaView.setPath(context);
-     context.fileList._irodsMetaView.load();
-   }
-
-   function checkFile(fullPath, dataType, mp) {
-     if(mp.mount_point_config) {
-       let suffix = fullPath.slice(mp.name.length);
-       let depth = suffix.split('/').length - (dataType == "file" ? 1 : 0);
-       let cfg = mp.mount_point_config;
-       if(dataType == "file") {
-         if((cfg.object_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
-           return true;
-         }
-       }
-       else if(dataType == "dir") {
-         if((cfg.collection_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
-           return true;
-         }
+     let path = (context.dir == '/' ? '' : context.dir + '/' + context.fileInfoModel.attributes.name);  
+     let iconurl = context.fileInfoModel.isDirectory() ?
+         OC.MimeType.getIconUrl('dir') :
+         OC.MimeType.getIconUrl(context.fileInfoModel.get('mimetype'));
+     context.fileList._irodsMetaView.setIconUrl(iconurl);
+     context.fileList._irodsMetaView.setPath(path);
+     let cansubmit = false;
+     for(let i=0; i < mountPoints.length; i++) {
+       let mp = mountPoints[i];
+       if(path.startsWith(mp.name)) {
+         cansubmit = checkFileEdit(path,
+                                   (context.fileInfoModel.isDirectory() ? 'dir' : 'file'),
+                                   mp);
+         break;
        }
      }
-     return false;
+     context.fileList._irodsMetaView.enableSubmit(cansubmit);
+     context.fileList._irodsMetaView.load();
    }
 
    function fileListFilter(actions, attributes, mountPoints) {
@@ -48,7 +83,7 @@ import App from './App';
      for(let i=0; i < mountPoints.length; i++) {
        let mp = mountPoints[i];
        if(fullPath.startsWith(mp.name)) {
-         ret = checkFile(fullPath, dataType, mp);
+         ret = checkFileReadOrEdit(fullPath, dataType, mp);
          break;
        }
      }
@@ -73,7 +108,7 @@ import App from './App';
                mime: 'all',
                permissions: OC.PERMISSION_READ,
                icon: OC.imagePath('irods_meta', 'eye'),
-               actionHandler: iRodsMetaDataView
+               actionHandler: (file, context) =>{ iRodsMetaDataView(file, context, mountPoints); }
              });
              fileList.fileActions.addAdvancedFilter(function(actions, context) {
                return fileListFilter(actions, context.$file[0].attributes, mountPoints);
@@ -91,30 +126,26 @@ import App from './App';
        className: 'detailsView scroll-container',
        events: { 'click a.close': '_onClose' },
 
-       setPath: function(context) {
-         this.path = context.dir;
-         if(this.path != '/') {
-           this.path += '/' + context.fileInfoModel.attributes.name;
-         }
-         else {
-           this.path = '';
-         }
-         this.apiUrl = OC.generateUrl('/apps/files_irods/api/meta' + this.path);
-         if(context.fileInfoModel.isDirectory()) {
-           this.iconurl = OC.MimeType.getIconUrl('dir');
-         }
-         else {
-           this.iconurl = OC.MimeType.getIconUrl(context.fileInfoModel.get('mimetype'));
-         }
+       setIconUrl: function(iconurl) {
+         this.iconurl = iconurl;
+       },
+
+       setPath: function(path) {
+         this.path = path;
+       },
+
+       enableSubmit: function(enable) {
+         this.submitEnabled = enable;
        },
 
        load: function() {
+         let url_submit = this.submitEnabled ? OC.generateUrl('/apps/irods_meta/api/submit' + this.path) : null;
          const TEMPLATE = <div className="detailFileInfoContainer">
                           <div className="mainFileInfoView">
                             <h1>Metadata Form<span></span></h1>
                               <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema' + this.path)}
                                    url_data={OC.generateUrl('/apps/irods_meta/api/meta' + this.path)}
-                                   url_submit={OC.generateUrl('/apps/irods_meta/api/submit' + this.path)} />
+                                   url_submit={url_submit} />
                             </div>
                             <a className="close icon-close" href="#" alt="Close"/>
                          </div>;
