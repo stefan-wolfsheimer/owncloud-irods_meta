@@ -83,14 +83,23 @@ class App extends React.Component {
 
 
   render() {
+    let button;
+    if(this.props.url_submit) {
+      button = <button type="submit">Submit</button>;
+    }
+    else {
+      button = <div/>
+    }
     return (
       <div id="main-registration-container">
        <div id="project">
         {this.state && this.state.mySchema && this.state.formData &&
          <Form schema={this.state.mySchema}
                        formData={this.state.formData}
-                      onBlur={(k, v) => { this.onBlur(k,v);} }
-                      onSubmit={d => { this.handleSubmit(d); }}/>
+                       onBlur={(k, v) => { this.onBlur(k,v);} }
+                       onSubmit={d => { this.handleSubmit(d); }}>
+         {button}
+         </Form>
         }
         <div className="irods-error" id="irods-error">
           <h3 className="irods-field-header">Error</h3>
