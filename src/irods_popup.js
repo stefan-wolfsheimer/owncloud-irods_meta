@@ -50,12 +50,14 @@ import App from './App';
        context.fileList._irodsMetaView = view;
      }
      OC.Apps.showAppSidebar(context.fileList._irodsMetaView.$el);
-     let path = (context.dir == '/' ? '' : context.dir + '/' + context.fileInfoModel.attributes.name);  
+     let path = (context.dir == '/' ? '' : context.dir + '/' + context.fileInfoModel.attributes.name);
      let iconurl = context.fileInfoModel.isDirectory() ?
-         OC.MimeType.getIconUrl('dir') :
+         OC.MimeType.getIconUrl('dir-external') :
          OC.MimeType.getIconUrl(context.fileInfoModel.get('mimetype'));
      context.fileList._irodsMetaView.setIconUrl(iconurl);
      context.fileList._irodsMetaView.setPath(path);
+     console.log(OC);
+     console.log(context);
      let cansubmit = false;
      for(let i=0; i < mountPoints.length; i++) {
        let mp = mountPoints[i];
@@ -132,25 +134,46 @@ import App from './App';
 
        setPath: function(path) {
          this.path = path;
+         this.encodedPath = OC.encodePath(path);
        },
+
 
        enableSubmit: function(enable) {
          this.submitEnabled = enable;
        },
 
        load: function() {
-         let url_submit = this.submitEnabled ? OC.generateUrl('/apps/irods_meta/api/submit' + this.path) : null;
+         let url_submit = this.submitEnabled ? OC.generateUrl('/apps/irods_meta/api/submit' + this.encodedPath) : null;
+         let name = this.path.substring(this.encodedPath.lastIndexOf('/') + 1);
+         const divStyle = {
+          backgroundImage: 'url("' + this.iconurl + '")',
+         };
+
          const TEMPLATE = <div className="detailFileInfoContainer">
-                          <div className="mainFileInfoView">
-                            <h1>Metadata Form<span></span></h1>
-                              <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema' + this.path)}
-                                   url_data={OC.generateUrl('/apps/irods_meta/api/meta' + this.path)}
-                                   url_submit={url_submit} />
+                           <div className="mainFileInfoView">
+                            <div className="thumbnailContainer">
+                             <a href= {OC.generateUrl('/apps/files/?dir=' + this.encodedPath)} className="thumbnail action-default" style={divStyle}>
+                              <div className="stretcher"></div>
+                             </a>
                             </div>
+                            <div className="file-details-container">
+                             <div className="fileName">
+                              <h3 title={name} className="ellipsis">{name}</h3>
+                             </div>
+                            </div>
+                          <div className="tabsContainer">
+                            <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema' + this.encodedPath)}
+                                 url_data={OC.generateUrl('/apps/irods_meta/api/meta' + this.encodedPath)}
+                                 url_submit={url_submit} />
+                           </div>
+                          </div>
                             <a className="close icon-close" href="#" alt="Close"/>
                          </div>;
          ReactDOM.unmountComponentAtNode(this.$el[0]);
          ReactDOM.render(TEMPLATE, this.$el[0]);
+         //this.$el.find('.thumbnail').css('background-image', 'url("' + this.iconurl + '")')
+
+         //ReactDOM.render(TEMPLATE, view.$el.find('.fileName').attr('title').toEqual('hello.txt'));
        },
 
        _onClose: function(event) {

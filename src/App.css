@@ -4,7 +4,7 @@
 	max-width: 400px;
 	padding: 20px 12px 10px 20px;
 	font: 13px "Roboto", Helvetica, Arial, sans-serif;
-}
+}zz
 
 .mainFileInfoView h1{
     display: block;
@@ -45,7 +45,6 @@
     color: black;
 }
 
-
 .mainFileInfoView-header {
   background-color: #F1F1F1;
   min-height: 100vh;
@@ -72,7 +71,7 @@ div {}
 }
 
 .irods-notification {
-    background: #fc4;
+    background: white;
     border:1px solid #0000;
     margin: 30px auto;
     padding:1em;
