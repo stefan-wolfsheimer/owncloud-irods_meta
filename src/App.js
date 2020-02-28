@@ -2,7 +2,6 @@ import React from 'react';
 import Form from 'react-jsonschema-form';
 import mainFileInfoView from './App.css';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +28,8 @@ class App extends React.Component {
     }
   }
 
+
+
   handleSubmit({formData}) {
     $( "#main-registration-container .form-control").attr('readonly', true);
     $( "#main-registration-container :button").hide();
@@ -38,7 +39,7 @@ class App extends React.Component {
       cache: false,
       success: data => {
         $( "#irods-notification").show();
-        $( "#irods-notification-message").html("Collection Submitted");
+        $( "#irods-notification-message").html("Your Collection has been Submitted");
       },
       error: (xhr, status, err) => {
         $( "#irods-error").show();
@@ -81,7 +82,6 @@ class App extends React.Component {
     });
   };
 
-
   render() {
     let button;
     if(this.props.url_submit) {
@@ -102,12 +102,12 @@ class App extends React.Component {
          </Form>
         }
         <div className="irods-error" id="irods-error">
-          <h3 className="irods-field-header">Error</h3>
+          <h3 className="irods-field-header">Error!</h3>
           <div id="irods-error-message">
           </div>
         </div>
         <div className="irods-notification" id="irods-notification">
-          <h3 className="irods-field-header">Notification</h3>
+          <h3 className="irods-field-header">Success!</h3>
           <div id="irods-notification-message">
           </div>
         </div>
