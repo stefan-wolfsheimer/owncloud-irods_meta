@@ -52,12 +52,10 @@ import App from './App';
      OC.Apps.showAppSidebar(context.fileList._irodsMetaView.$el);
      let path = (context.dir == '/' ? '' : context.dir + '/' + context.fileInfoModel.attributes.name);
      let iconurl = context.fileInfoModel.isDirectory() ?
-         OC.MimeType.getIconUrl('dir-external') :
-         OC.MimeType.getIconUrl(context.fileInfoModel.get('mimetype'));
+       OC.MimeType.getIconUrl('dir-external') :
+       OC.MimeType.getIconUrl(context.fileInfoModel.get('mimetype'));
      context.fileList._irodsMetaView.setIconUrl(iconurl);
      context.fileList._irodsMetaView.setPath(path);
-     console.log(OC);
-     console.log(context);
      let cansubmit = false;
      for(let i=0; i < mountPoints.length; i++) {
        let mp = mountPoints[i];
@@ -161,19 +159,18 @@ import App from './App';
                               <h3 title={name} className="ellipsis">{name}</h3>
                              </div>
                             </div>
-                          <div className="tabsContainer">
-                            <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema' + this.encodedPath)}
+                           <div className="mainFileInfoView">
+                            <div className="tabsContainer">
+                             <App url_schema={OC.generateUrl('/apps/irods_meta/api/schema' + this.encodedPath)}
                                  url_data={OC.generateUrl('/apps/irods_meta/api/meta' + this.encodedPath)}
                                  url_submit={url_submit} />
+                            </div>
                            </div>
                           </div>
                             <a className="close icon-close" href="#" alt="Close"/>
                          </div>;
          ReactDOM.unmountComponentAtNode(this.$el[0]);
          ReactDOM.render(TEMPLATE, this.$el[0]);
-         //this.$el.find('.thumbnail').css('background-image', 'url("' + this.iconurl + '")')
-
-         //ReactDOM.render(TEMPLATE, view.$el.find('.fileName').attr('title').toEqual('hello.txt'));
        },
 
        _onClose: function(event) {
