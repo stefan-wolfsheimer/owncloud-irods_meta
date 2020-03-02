@@ -2,47 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 import App from './App';
+import check_meta_collections from './check_meta_collections';
 
 (function()
  {
-   function checkFileReadOrEdit(fullPath, dataType, mp) {
-      if(mp.mount_point_config) {
-        let suffix = fullPath.slice(mp.name.length);
-        let depth = suffix.split('/').length - (dataType == "file" ? 1 : 0);
-        let cfg = mp.mount_point_config;
-        if(dataType == "file") {
-          if((cfg.object_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
-            return true;
-          }
-        }
-        else if(dataType == "dir") {
-          if((cfg.collection_edit_meta_data || cfg.collection_read_meta_data) && ((cfg.sub_collection_edit_meta_data || cfg.sub_collection_read_meta_data) || depth < 2)) {
-            return true;
-          }
-        }
-      }
-      return false;
-   }
-
-   function checkFileEdit(fullPath, dataType, mp) {
-      if(mp.mount_point_config) {
-        let suffix = fullPath.slice(mp.name.length);
-        let depth = suffix.split('/').length - (dataType == "file" ? 1 : 0);
-        let cfg = mp.mount_point_config;
-        if(dataType == "file") {
-          if((cfg.object_edit_meta_data) && ((cfg.sub_collection_edit_meta_data) || depth < 2)) {
-            return true;
-          }
-        }
-        else if(dataType == "dir") {
-          if((cfg.collection_edit_meta_data) && ((cfg.sub_collection_edit_meta_data) || depth < 2)) {
-            return true;
-          }
-        }
-      }
-      return false;
-   }
-
    function iRodsMetaDataView(file, context, mountPoints) {
      if(typeof context.fileList._irodsMetaView == 'undefined') {
        let view = new OCA.IRODS_POPUP.View();
@@ -60,9 +23,11 @@ import App from './App';
      for(let i=0; i < mountPoints.length; i++) {
        let mp = mountPoints[i];
        if(path.startsWith(mp.name)) {
-         cansubmit = checkFileEdit(path,
-                                   (context.fileInfoModel.isDirectory() ? 'dir' : 'file'),
-                                   mp);
+         cansubmit = check_meta_collections.checkMetaPermissions(path,
+                                                                 (context.fileInfoModel.isDirectory() ? 'dir' : 'file'),
+                                                                 mp.groups,
+                                                                 mp);
+         cansubmit = (cansubmit.indexOf("s") != -1);
          break;
        }
      }
@@ -83,7 +48,8 @@ import App from './App';
      for(let i=0; i < mountPoints.length; i++) {
        let mp = mountPoints[i];
        if(fullPath.startsWith(mp.name)) {
-         ret = checkFileReadOrEdit(fullPath, dataType, mp);
+         let c = check_meta_collections.checkMetaPermissions(fullPath, dataType, mp.groups, mp);
+         ret = c ? true : false;
          break;
        }
      }
