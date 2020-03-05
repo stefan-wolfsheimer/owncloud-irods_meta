@@ -18,6 +18,8 @@ stages:
 
 build-containers:
   stage: build_containers
+  tags:
+    - owncloud
   script:
     cd /home/gitlab-runner/owncloud-apps/localbuild
     docker build -t owncloud-rpm-builder .
@@ -25,7 +27,7 @@ build-containers:
 build-rpm:
   stage: build_rpms
   tags:
-    - build
+    - owncloud
   variables:
     RPM: owncloud-irods_meta-${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}.noarch.rpm
   script:
@@ -36,7 +38,7 @@ build-rpm:
 build-image:
   stage: build_image
   tags:
-    - build
+    - owncloud
   script:
     - cd /home/gitlab-runner/irods-owncloud-integration/docker/owncloud-acceptance
     - docker build -t git.ia.surfsara.nl:5050/data-management-services/irods-owncloud-integration .
@@ -44,6 +46,6 @@ build-image:
 push-image:
   stage: push_image
   tags:
-    - build
+    - owncloud
   script:
     - docker push git.ia.surfsara.nl:5050/data-management-services/irods-owncloud-integration
