@@ -28,12 +28,8 @@ build-rpm:
   stage: build_rpms
   tags:
     - owncloud
-  variables:
-    RPM: owncloud-irods_meta-${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}.noarch.rpm
   script:
-    - docker run -v ${SPEC_DIR}:/host --name owncloud-irods-meta-builder owncloud-rpm-builder rpmbuild -ba /host/SPECS/owncloud-irods-meta.spec --define "version $CI_COMMIT_REF_NAME" --define "release $CI_PIPELINE_ID" --define "branch $CI_COMMIT_REF_NAME"
-    - docker cp owncloud-irods-meta-builder:/home/builder/rpm/noarch/${RPM} .
-    - cp ${RPM} /home/gitlab-runner/irods-owncloud-integration/docker/owncloud-acceptance/RPM/owncloud-irods_meta.noarch.rpm
+    ./gitlab_build.sh
   
 build-image:
   stage: build_image
