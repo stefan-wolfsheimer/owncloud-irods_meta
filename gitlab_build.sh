@@ -21,7 +21,6 @@ fi
 
 RPM=${NAME}-${VERSION}-${RELEASE}.noarch.rpm
 
-RPM=owncloud-irods-meta-${CI_COMMIT_TAG}-0.noarch.rpm
 docker run -v ${SPEC_DIR}:/host --name owncloud-irods-meta-builder owncloud-rpm-builder \
        rpmbuild -ba /host/SPECS/${SPEC} --define "version ${VERSION}" --define "release ${RELEASE}" --define "branch $CI_COMMIT_REF_NAME"
 docker cp owncloud-irods-meta-builder:/home/builder/rpm/noarch/${RPM} .
