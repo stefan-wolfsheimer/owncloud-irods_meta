@@ -11,9 +11,16 @@ after_script:
   - docker rm --force owncloud-irods-meta-builder || echo "not running"
 
 stages:
+  - build_containers
   - build_rpms
   - build_image
   - push_image
+
+build-containers:
+  stage: build_containers
+  script:
+    cd /home/gitlab-runner/owncloud-apps/localbuild
+    docker build -t owncloud-rpm-builder .
 
 build-rpm:
   stage: build_rpms
