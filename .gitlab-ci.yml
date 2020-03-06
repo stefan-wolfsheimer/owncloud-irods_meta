@@ -30,18 +30,3 @@ build-rpm:
     - owncloud
   script:
     ./gitlab_build.sh
-  
-build-image:
-  stage: build_image
-  tags:
-    - owncloud
-  script:
-    - cd /home/gitlab-runner/irods-owncloud-integration/docker/owncloud-acceptance
-    - docker build -t git.ia.surfsara.nl:5050/data-management-services/irods-owncloud-integration .
-
-push-image:
-  stage: push_image
-  tags:
-    - owncloud
-  script:
-    - docker push git.ia.surfsara.nl:5050/data-management-services/irods-owncloud-integration

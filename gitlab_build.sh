@@ -27,13 +27,13 @@ if [ -z "$CI_COMMIT_TAG" ]
 then
      VERSION=${CI_PIPELINE_ID}
      RELEASE=0
-     BRANCH=release
+     BRANCH=${CI_COMMIT_REF_NAME}
      REPO=DMS-RPM-Testing
 else
      # release
      VERSION=${CI_COMMIT_TAG}
      RELEASE=0
-     BRANCH=${CI_COMMIT_REF_NAME}
+     BRANCH=release
      REPO=DMS-RPM-Production
 fi
 
