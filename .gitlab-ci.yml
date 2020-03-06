@@ -1,28 +1,8 @@
 variables:
-  SPEC_DIR: /home/gitlab-runner/owncloud-apps
   GIT_STRATEGY: clone
 
-before_script:
-  - echo "before"
-  - docker rm --force owncloud-irods-meta-builder || echo "not running"
-
-after_script:
-  - echo "after"
-  - docker rm --force owncloud-irods-meta-builder || echo "not running"
-
 stages:
-  - build_containers
   - build_rpms
-  - build_image
-  - push_image
-
-build-containers:
-  stage: build_containers
-  tags:
-    - owncloud
-  script:
-    cd /home/gitlab-runner/owncloud-apps/localbuild
-    docker build -t owncloud-rpm-builder .
 
 build-rpm:
   stage: build_rpms
