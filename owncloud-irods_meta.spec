@@ -3,8 +3,6 @@
 %define owncloud_dir   	%{_datadir}/owncloud
 %define apps_dir        %{owncloud_dir}/apps
 %define apps_path       irods_meta
-%define deploy_user     builder
-%define deploy_token    Uwy5J7z9VJdr6smSXkQ2
 %{!?version: %define version 0.0.6}
 %{!?release: %define release 0}
 
