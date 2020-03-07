@@ -62,4 +62,4 @@ for REPO in ${REPOS[@]}; do
     fi
 done
 
-return $ret
+exit $ret
