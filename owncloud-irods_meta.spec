@@ -16,7 +16,7 @@ Distribution:   SURFsara
 Vendor:         SURFsara
 Packager:       Stefan Wolfsheimer <stefan.wolfsheimer@surfsara.nl>
 AutoReqProv:    no
-Requires:       owncloud >= 10.0.10
+# Requires:       owncloud >= 10.0.10
 BuildArch:      noarch
 
 %description
