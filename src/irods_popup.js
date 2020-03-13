@@ -109,9 +109,6 @@ import check_meta_collections from './check_meta_collections';
        load: function() {
          let url_submit = this.submitEnabled ? OC.generateUrl('/apps/irods_meta/api/submit' + this.encodedPath) : null;
          let name = this.path.substring(this.path.lastIndexOf('/') + 1);
-         console.log(name);
-         console.log(this.path);
-         console.log(this.encodedPath);
          const divStyle = {
           backgroundImage: 'url("' + this.iconurl + '")',
          };
