@@ -34,6 +34,11 @@ class SchemaController extends Controller
            foreach($schema['properties'] as $k=>&$v)
            {
                $v['readOnly'] = true;
+               // don't load lists if field is readonly anyways
+               if(array_key_exists("enum", $v) && is_string($v["enum"]))
+               {
+                   unset($v["enum"]);
+               }
            }
        }
        foreach($schema['properties'] as $k=>&$v)
