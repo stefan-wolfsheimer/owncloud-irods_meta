@@ -36,6 +36,26 @@ class SchemaController extends Controller
                $v['readOnly'] = true;
            }
        }
+       foreach($schema['properties'] as $k=>&$v)
+       {
+           if(array_key_exists("enum", $v) && is_string($v["enum"]))
+           {
+               $enum = $v["enum"];
+               $arr = [];
+               if(preg_match ("/^{GROUP:(.*?)}$/", $enum, $matches))
+               {
+                   $groups = array_keys($session->getRoles());
+                   foreach($groups as $g)
+                   {
+                       if(preg_match($matches[1], $g, $matches2))
+                       {
+                           $arr[] = $matches2[1];
+                       }
+                   }
+               }
+               $v["enum"] = $arr;
+           }
+       }
        return new JSONResponse($schema);
     }
 
