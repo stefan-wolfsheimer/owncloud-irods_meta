@@ -18,7 +18,6 @@ class App extends React.Component {
     if(oldValue != value)
     {
       this.state.formData[atr] = value;
-      //this.setState({formData: this.state.formData});
       $.ajax({
         url: this.props.url_data,
         type: 'PUT',
@@ -39,11 +38,11 @@ class App extends React.Component {
       cache: false,
       success: data => {
         $( "#irods-notification").show();
-        $( "#irods-notification-message").html("Your Collection has been Submitted");
+        $( "#irods-notification-message").html();
       },
       error: (xhr, status, err) => {
         $( "#irods-error").show();
-        $( "#irods-error-message").html("Failed to submit collection");
+        $( "#irods-error-message").html();
         $( "#main-registration-container :button").show();
       },
     });
@@ -102,12 +101,12 @@ class App extends React.Component {
          </Form>
         }
         <div className="irods-error" id="irods-error">
-          <h3 className="irods-field-header">Error!</h3>
+          <h3 className="irods-field-header"><span>&#10006;</span> Failed to submit your collection</h3>
           <div id="irods-error-message">
           </div>
         </div>
         <div className="irods-notification" id="irods-notification">
-          <h3 className="irods-field-header">Success!</h3>
+          <h3 className="irods-field-header"><span>&#10003;</span> Your collection has been successfully submitted</h3>
           <div id="irods-notification-message">
           </div>
         </div>

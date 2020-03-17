@@ -131,6 +131,16 @@ import check_meta_collections from './check_meta_collections';
                                  url_data={OC.generateUrl('/apps/irods_meta/api/meta' + this.encodedPath)}
                                  url_submit={url_submit} />
                             </div>
+                            <div className="irods-error" id="irods-error">
+                              <h3 className="irods-field-header">Error!</h3>
+                              <div id="irods-error-message">
+                              </div>
+                            </div>
+                            <div className="irods-notification" id="irods-notification">
+                              <h3 className="irods-field-header"><span>&#10003;</span> Your collection has been successfully submitted</h3>
+                              <div id="irods-notification-message">
+                              </div>
+                            </div>
                            </div>
                           </div>
                             <a className="close icon-close" href="#" alt="Close"/>

@@ -16,6 +16,10 @@
     margin-bottom: 10px;
 }
 
+.mainFileInfoView span {
+  content: "\2713";
+}
+
 .mainFileInfoView h1 > span{
 	display: block;
 	margin-top: 2px;
@@ -75,7 +79,7 @@ div {}
     border:1px solid #0000;
     margin: 30px auto;
     padding:1em;
-    text-align: center;
+    text-align: left;
     display: none;
 }
 
