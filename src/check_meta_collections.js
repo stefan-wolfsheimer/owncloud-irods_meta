@@ -1,4 +1,24 @@
 
+function findConfig(path, mountPoints) {
+  if(!path.endsWith('/'))
+  {
+    path = path + '/';
+  }
+  var filteredMountPoints = mountPoints.filter(mp => path.startsWith(mp.name)).sort((mp1, mp2) =>
+                                                                                    {
+                                                                                      if(mp1.name > mp2.name) return -1;
+                                                                                      else if(mp1.name < mp2.name) return 1;
+                                                                                      else return 0;
+                                                                                    });
+  console.log(path);
+  console.log(mountPoints);
+  console.log(filteredMountPoints);
+  for(let i = 0; i < filteredMountPoints.length; i++) {
+    return filteredMountPoints[i];
+  }
+  return null;
+}
+
 function getDirectoryLevel(fullPath, mp) {
   let root = mp.name.replace(/\/+$/g, "") + "/";
   let fp = fullPath.replace(/\/+$/g, "/") + "/";
@@ -86,3 +106,4 @@ function checkMetaPermissions(fullPath, dataType, groups, mp) {
 
 exports.checkMetaPermissions = checkMetaPermissions;
 exports.getDirectoryLevel = getDirectoryLevel;
+exports.findConfig = findConfig;

@@ -20,16 +20,13 @@ import check_meta_collections from './check_meta_collections';
      context.fileList._irodsMetaView.setIconUrl(iconurl);
      context.fileList._irodsMetaView.setPath(path);
      let cansubmit = false;
-     for(let i=0; i < mountPoints.length; i++) {
-       let mp = mountPoints[i];
-       if(path.startsWith(mp.name)) {
-         cansubmit = check_meta_collections.checkMetaPermissions(path,
-                                                                 (context.fileInfoModel.isDirectory() ? 'dir' : 'file'),
-                                                                 mp.groups,
-                                                                 mp);
-         cansubmit = (cansubmit.indexOf("s") != -1);
-         break;
-       }
+     let mp = check_meta_collections.findConfig(path, mountPoints);
+     if(mp) {
+       cansubmit = check_meta_collections.checkMetaPermissions(path,
+                                                               (context.fileInfoModel.isDirectory() ? 'dir' : 'file'),
+                                                               mp.groups,
+                                                               mp);
+       cansubmit = (cansubmit.indexOf("s") != -1);
      }
      context.fileList._irodsMetaView.enableSubmit(cansubmit);
      context.fileList._irodsMetaView.load();
@@ -45,13 +42,10 @@ import check_meta_collections from './check_meta_collections';
      }
      dataType = dataType.value;
      let fullPath = path.value + "/" + file.value;
-     for(let i=0; i < mountPoints.length; i++) {
-       let mp = mountPoints[i];
-       if(fullPath.startsWith(mp.name)) {
-         let c = check_meta_collections.checkMetaPermissions(fullPath, dataType, mp.groups, mp);
-         ret = c ? true : false;
-         break;
-       }
+     let mp = check_meta_collections.findConfig(fullPath, mountPoints);
+     if(mp) {
+       let c = check_meta_collections.checkMetaPermissions(fullPath, dataType, mp.groups, mp);
+       ret = c ? true : false;
      }
      if(!ret) {
        delete actions['irods_metadata'];
