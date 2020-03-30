@@ -1,6 +1,7 @@
 let check_meta_collections = require('../src/check_meta_collections');
 let checkMetaPermissions = check_meta_collections.checkMetaPermissions;
 let getDirectoryLevel = check_meta_collections.getDirectoryLevel;
+let findConfig = check_meta_collections.findConfig;
 let assert = require('chai').assert
 
 
@@ -46,6 +47,23 @@ let mount_point_2 = {
   }
 };
 
+describe('findConfig', function() {
+  assert.equal(findConfig("/mypath", []), null);
+  assert.equal(findConfig("/ResearchData", [mount_point_1,
+                                            mount_point_2]).name, "/ResearchData/");
+  assert.equal(findConfig("/ResearchData", [mount_point_2,
+                                            mount_point_1]).name, "/ResearchData/");
+  assert.equal(findConfig("/ResearchData/abc", [mount_point_1,
+                                                mount_point_2]).name, "/ResearchData/");
+  assert.equal(findConfig("/ResearchData/Archive", [mount_point_1,
+                                                    mount_point_2]).name, "/ResearchData/Archive");
+  assert.equal(findConfig("/ResearchData/Archive", [mount_point_2,
+                                                    mount_point_1]).name, "/ResearchData/Archive");
+  assert.equal(findConfig("/ResearchData/Archive/abc", [mount_point_1,
+                                                        mount_point_2]).name, "/ResearchData/Archive");
+  assert.equal(findConfig("/ResearchData/Archive/abc", [mount_point_2,
+                                                        mount_point_1]).name, "/ResearchData/Archive");
+});
 
 describe('checkDirectoryLevel', function() {
   describe('check level outside mountpoint', function() {
@@ -86,6 +104,11 @@ describe('checkMetaPermissions', function() {
       assert.equal(checkMetaPermissions("/ResearchData/abc/def/", "dir", ["steward"], mount_point_1), "r");
       assert.equal(checkMetaPermissions("/ResearchData/abc/def/ghi/", "dir", ["steward"], mount_point_1), "r");
       assert.equal(checkMetaPermissions("/ResearchData/abc/def/ghi/jkl", "dir", ["researcher"], mount_point_1), "r");
+    });
+  });
+  describe('config 2()', function() {
+    it('Archive directory should not be editable', function() {
+      assert.isFalse(checkMetaPermissions("/ResearchData/Archive", "dir", ["researchers"], mount_point_2));
     });
   });
 });
